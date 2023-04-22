@@ -82,16 +82,6 @@ def make_soup(in_url: str,
 
     return out_links
 
-def download_data(data_url: str,
-                out_path: str,
-                **kwargs):
-    '''
-    main function for downloading GLaDOS data
-    '''
-    # make meta data table
-    soup_kwarge = 
-    link_dict = make_soup()
-
 # from:
 # https://stackoverflow.com/questions/12627118/get-a-function-arguments-default-value
 def get_default_args(func):
@@ -117,3 +107,14 @@ def add_kwargs(func, **kwargs):
         applicable_kwargs.update({a:kwargs[a]})
 
     return applicable_kwargs
+
+def download_data(data_url: str,
+                out_path: str,
+                **kwargs):
+    '''
+    main function for downloading GLaDOS data
+    '''
+    # make meta data table
+    soup_kwargs = add_kwargs(make_soup, **kwargs)
+    link_dict = make_soup(data_url, **soup_kwargs)
+    meta_df = ...
