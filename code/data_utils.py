@@ -108,8 +108,22 @@ def add_kwargs(func, **kwargs):
 
     return applicable_kwargs
 
+def write_metadata(out_path,
+                    input_df,
+                    file_name='metadata.csv',
+                    columns=['file', 'text', 'text']):
+    """
+    Creates a metadata.csv file according to ljspeech convention
+    """
+    input_df[columns].to_csv(join(out_path, file_name),
+                            index=False,
+                            header=False,
+                            sep='|')
+
+
 def download_data(data_url: str,
                 out_path: str,
+                wait_time: int,
                 **kwargs):
     '''
     main function for downloading GLaDOS data
@@ -117,4 +131,44 @@ def download_data(data_url: str,
     # make meta data table
     soup_kwargs = add_kwargs(make_soup, **kwargs)
     link_dict = make_soup(data_url, **soup_kwargs)
-    meta_df = ...
+    meta_df = pd.DataFrame({'text':list(link_dict.keys()),
+                        'wav':list(link_dict.values())})
+
+    if not os.path.exists(out_path):
+        print("Creating {}".format(out_path))
+        Path(out_path).mkdir(parents=True, exist_ok=True)
+
+    for i in meta_df.wav:
+        download_wav_file(url=i, dir_path=out_path, wait_time=wait_time)
+
+    meta_df['file'] = meta_df.wav.apply(lambda x: 
+                                        x.split('/')[-1].split('.wav')[0])
+    write_metadata(out_path=out_path, input_df=meta_df)
+
+def give_ljspeech_dict():
+    """
+    Loads the dictionary LJ Speech data set uses to replace abbreviations
+    used in voice training data.
+    """
+    replace_dict = {"Mr.":" Mister",
+                    "Mrs.":"Misess",
+                    "Dr.":" Doctor",
+                    "No.":" Number",
+                    "St.":" Saint",
+                    "Co.":" Company",
+                    "Jr.":" Junior",
+                    "Maj.":"Major",
+                    "Gen.":"General",
+                    "Drs.":"Doctors",
+                    "Rev.":"Reverend",
+                    "Lt.":" Lieutenant",
+                    "Hon.":"Honorable",
+                    "Sgt.":"Sergeant",
+                    "Capt.":"Captain",
+                    "Esq.":"Esquire",
+                    "Ltd.":"Limited",
+                    "Col.":"Colonel",
+                    "Ft.":" Fort"}
+    return replace_dict                    
+
+
