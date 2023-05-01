@@ -97,3 +97,14 @@ def wada_snr(wav_path):
 
     return snr, wav_path
 
+
+def give_file_len(file_path) -> float:
+    """
+    Return the length of an audio file (in seconds).
+    """
+    file_path = str(file_path)
+    wav, sr = sf.read(file_path)
+    if len(wav.shape) == 2:
+        wav = wav[:, 0]
+    
+    return len(wav) / sr
