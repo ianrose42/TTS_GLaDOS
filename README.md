@@ -2,7 +2,7 @@
 Train a GLaDOS text-to-speech model
 
 # test audio
-https://github.com/ianrose42/TTS_GLaDOS/blob/main/repo_audio/github_greeting.wav
+https://github.com/ianrose42/TTS_GLaDOS/blob/main/repo_audio/github_greeting.mp4
 
 # Code to train the model
 
