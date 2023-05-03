@@ -3,6 +3,9 @@ Train a GLaDOS text-to-speech model
 
 # test audio
 https://github.com/ianrose42/TTS_GLaDOS/blob/main/repo_audio/github_greeting.mp4
+
+## now with brake...
+
 https://user-images.githubusercontent.com/10395840/235816423-7a6301dd-278f-43d5-95ef-d0a727657dee.mp4
 # Code to train the model
 
