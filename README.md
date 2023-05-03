@@ -6,6 +6,7 @@ The model does a pretty good job synthesizing English language speach as I imagi
 > "Hello. You have found code for creating a text to speech model of my voice. Enjoy it. While you can."
 
 We get: <br>
+
 https://user-images.githubusercontent.com/10395840/235816423-7a6301dd-278f-43d5-95ef-d0a727657dee.mp4
 
 # test audio
