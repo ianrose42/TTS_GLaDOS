@@ -2,6 +2,7 @@
 Train a GLaDOS text-to-speech model
 
 # test audio
+https://github.com/ianrose42/TTS_GLaDOS/blob/main/repo_audio/github_greeting.wav
 
 # Code to train the model
 
@@ -62,4 +63,8 @@ python TTS/bin/resample.py \
     --output_dir /TTS_GLaDOS/glados16000_data/ \
     --n_jobs 8 \
     --file_ext wav
+```
+Actually training the model:
+```
+python3 /TTS_GLaDOS/train_glados.py
 ```
