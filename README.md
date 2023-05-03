@@ -1,12 +1,19 @@
 # TTS_GLaDOS
-Train a GLaDOS text-to-speech model
+This repo contains code for creating a text-to-speech model emulating the voice of GLaDOS, the malevolent AI from the Portal video games. The text-to-speech model uses [Variational Inference with adversarial
+learning for end-to-end Text-to-Speech](https://github.com/jaywalnut310/vits) implemented using [coqui-ai's TTS library](https://github.com/coqui-ai/TTS) and is with `.wav` files scraped from a [Portal wiki](https://theportalwiki.com/wiki/GLaDOS_voice_lines).
+
+The model does a pretty good job synthesizing English language speach as I imagine GLaDOS might. For example, if we gibe the model:
+> "Hello. You have found code for creating a text to speech model of my voice. Enjoy it. While you can."
+
+We get: <br>
+https://user-images.githubusercontent.com/10395840/235816423-7a6301dd-278f-43d5-95ef-d0a727657dee.mp4
 
 # test audio
 https://github.com/ianrose42/TTS_GLaDOS/blob/main/repo_audio/github_greeting.mp4
 
 ## now with brake...
 
-https://user-images.githubusercontent.com/10395840/235816423-7a6301dd-278f-43d5-95ef-d0a727657dee.mp4
+
 # Code to train the model
 
 ## Step 1: d-vectors
