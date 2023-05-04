@@ -55,7 +55,7 @@ python3 TTS/bin/compute_embeddings.py \
 I'm using this config file and not the defaults because I find that increasing `preemphasis` and `ref_level_db` _dramatically_ increase how "GLaDOS-ey" the text-to-speech model sounds.
 
 # Code to Train the Model
-To Train the model, use this command (from within a TTS container):
+To Train the model, change the `RESTORE_PATH` variable in `./train_glados.py` to the path where you downloaded the coqui's model checkpoints (or make `None` if you don't want to use transfer learning) use this command (from within a TTS container):
 ```
 python3 /path/to/this/README/train_glados.py
 ```
