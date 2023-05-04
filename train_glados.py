@@ -1,4 +1,5 @@
 import os
+from os.path import join
 
 import torch
 from trainer import Trainer, TrainerArgs
@@ -30,7 +31,7 @@ RUN_NAME = "YourTTS-EN-VCTK"
 OUT_PATH = os.path.dirname(os.path.abspath(__file__))  # "/raid/coqui/Checkpoints/original-YourTTS/"
 
 # If you want to do transfer learning and speedup your training you can set here the path to the original YourTTS model
-RESTORE_PATH = '/text_to_speech/latest_yourtts_files/latest_model_dl/actually_checkpoint/model+SCL/checkpoint_70000.pth.tar' # "/root/.local/share/tts/tts_models--multilingual--multi-dataset--your_tts/model_file.pth"
+RESTORE_PATH = '/set/path/to/where/you/downloaded/model+SCL/checkpoint_70000.pth.tar' # "/root/.local/share/tts/tts_models--multilingual--multi-dataset--your_tts/model_file.pth"
 
 # This paramter is useful to debug, it skips the training epochs and just do the evaluation  and produce the test sentences
 SKIP_TRAIN_EPOCH = False
@@ -68,36 +69,9 @@ vctk_config = BaseDatasetConfig(
 # Add here all datasets configs, in our case we just want to train with the VCTK dataset then we need to add just VCTK. Note: If you want to add new datasets, just add them here and it will automatically compute the speaker embeddings (d-vectors) for this new dataset :)
 DATASETS_CONFIG_LIST = [vctk_config]
 
-### Extract speaker embeddings
-SPEAKER_ENCODER_CHECKPOINT_PATH = (
-    "https://github.com/coqui-ai/TTS/releases/download/speaker_encoder_model/model_se.pth.tar"
-)
 #SPEAKER_ENCODER_CONFIG_PATH = "https://github.com/coqui-ai/TTS/releases/download/speaker_encoder_model/config_se.json"
-SPEAKER_ENCODER_CONFIG_PATH = '/text_to_speech/latest_yourtts_files/latest_model_dl/tts_models--multilingual--multi-dataset--your_tts/tts_models--multilingual--multi-dataset--your_tts/config_se.json'
+SPEAKER_ENCODER_CONFIG_PATH = join(OUT_PATH, configs, 'config_se.json')
 D_VECTOR_FILES = []  # List of speaker embeddings/d-vectors to be used during the training
-
-# Iterates all the dataset configs checking if the speakers embeddings are already computated, if not compute it
-for dataset_conf in DATASETS_CONFIG_LIST:
-    # Check if the embeddings weren't already computed, if not compute it
-    embeddings_file = os.path.join(dataset_conf.path, "speakers.pth")
-    if not os.path.isfile(embeddings_file):
-        print(f">>> Computing the speaker embeddings for the {dataset_conf.dataset_name} dataset")
-        compute_embeddings(
-            #SPEAKER_ENCODER_CHECKPOINT_PATH,
-            SPEAKER_ENCODER_CONFIG_PATH,
-            embeddings_file,
-            old_spakers_file=None,
-            config_dataset_path=None,
-            formatter_name=dataset_conf.formatter,
-            dataset_name=dataset_conf.dataset_name,
-            dataset_path=dataset_conf.path,
-            meta_file_train=dataset_conf.meta_file_train,
-            meta_file_val=dataset_conf.meta_file_val,
-            disable_cuda=False,
-            no_eval=False,
-        )
-    D_VECTOR_FILES.append(embeddings_file)
-
 
 # Audio config used in training.
 audio_config = VitsAudioConfig(
@@ -116,7 +90,6 @@ model_args = VitsArgs(
     use_d_vector_file=True,
     d_vector_dim=512,
     num_layers_text_encoder=10,
-    #speaker_encoder_model_path=SPEAKER_ENCODER_CHECKPOINT_PATH,
     speaker_encoder_config_path=SPEAKER_ENCODER_CONFIG_PATH,
     resblock_type_decoder="2",  # In the paper, we accidentally trained the YourTTS using ResNet blocks type 2, if you like you can use the ResNet blocks type 1 like the VITS model
     # Useful parameters to enable the Speaker Consistency Loss (SCL) described in the paper
