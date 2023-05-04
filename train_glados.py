@@ -50,11 +50,6 @@ MAX_AUDIO_LEN_IN_SECONDS = 20
 VCTK_DOWNLOAD_PATH = os.path.join(CURRENT_PATH, "VCTK")
 # Define the number of threads used during the audio resampling
 NUM_RESAMPLE_THREADS = 10
-# Check if VCTK dataset is not already downloaded, if not download it
-#if not os.path.exists(VCTK_DOWNLOAD_PATH):
-#    print(">>> Downloading VCTK dataset:")
-#    download_vctk(VCTK_DOWNLOAD_PATH)
-#    resample_files(VCTK_DOWNLOAD_PATH, SAMPLE_RATE, file_ext="flac", n_jobs=NUM_RESAMPLE_THREADS)
 
 # init configs
 vctk_config = BaseDatasetConfig(
